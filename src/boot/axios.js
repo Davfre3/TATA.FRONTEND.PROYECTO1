@@ -1,7 +1,14 @@
 import { defineBoot } from '#q-app/wrappers'
 import axios from 'axios'
 
-const api = axios.create({ baseURL: 'http://localhost:5260' })
+const apiBaseUrl =
+  process.env.API_URL !== undefined
+    ? process.env.API_URL
+    : process.env.NODE_ENV === 'production'
+      ? ''
+      : 'http://localhost:5260'
+
+const api = axios.create({ baseURL: apiBaseUrl })
 
 // Agregar interceptor para incluir token de autenticación
 api.interceptors.request.use(
